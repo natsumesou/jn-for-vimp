@@ -2,19 +2,19 @@
 
 
 //見たい板の名前とURLを入れていく（名前は適当でもいいけどURLが下記のようなフォーマットでないと読み込みエラーが起きるので注意）
-var boards = [
+let boards = [
 				["news", "kamome.2ch.net/news/"],
 				["news4vip", "yuzuru.2ch.net/news4vip/"],
 			];
 
 
 //選択中のスレッド
-var thread_number = 0;
+let thread_number = 0;
 function browse(args, bang, count){
-	var board = args[0];
+	let board = args[0];
 	
-	var board_url = "";
-	for(var i=0; i<boards.length;i++){
+	let board_url = "";
+	for(let i=0; i<boards.length;i++){
 		if(board == boards[i][0]){
 			board_url = boards[i][1];
 			break;
@@ -28,7 +28,7 @@ function browse(args, bang, count){
 		if(threads_array != undefined){
 			if(threads_array.length > 0){
 				try{
-					var number = eval(args[1]) - 1;
+					let number = eval(args[1]) - 1;
 				}catch(e){
 					liberator.echoerr("should input an accurate numerical value");
 					return -1;
@@ -56,7 +56,7 @@ function get2chData(url, dat_url){
 		url = "http://" + url + "subject.txt";
 	}
 	
-	var req = new XMLHttpRequest();
+	let req = new XMLHttpRequest();
 	req.overrideMimeType("text/plain; charset=shift_jis");
 	req.open("GET", url, true);
 	req.setRequestHeader("User-Agent", "Monazilla/1.00 (2ch browser for vimp)");
@@ -64,7 +64,7 @@ function get2chData(url, dat_url){
 	req.onreadystatechange = function(){
 		if( req.readyState == 4){
 			if(req.status == 200){
-				var threads = req.responseText;
+				let threads = req.responseText;
 				
 				if(dat_url){
 					showResponses(threads);
@@ -82,11 +82,11 @@ function get2chData(url, dat_url){
 
 //thread_arrayからhtml生成
 function createHTMLforThreads(threads_array){
-	var html = "<style type='text/css'>"
+	let html = "<style type='text/css'>"
 				+ "div{ margin: 0 5px 0 5px; } span{ margin-right:5px; }"
 				+"</style>";
 	
-	for(var i=0;i<threads_array.length;i++){
+	for(let i=0;i<threads_array.length;i++){
 		html += "<div>"
 					+ "<span class='num'>" + (i+1) + "</span>"
 					+ "<span class='power'>" + threads_array[i][3] + "</span>"
@@ -99,9 +99,9 @@ function createHTMLforThreads(threads_array){
 }
 
 //スレッド一覧を出力
-var threads_array = [];
+let threads_array = [];
 function showThreads(threads){
-	var getDate = (new Date).getTime();
+	let getDate = (new Date).getTime();
 	getDate = ""+getDate;
 	getDate = getDate.substring(0,getDate.length-3);
 	getDate = eval(getDate);
@@ -111,8 +111,8 @@ function showThreads(threads){
 	threads = threads.replace(/\&amp;([a-z]+;)/g, "\&$1");
 	
 	try{
-		var result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
-		for(var i=0;i<result.length;i++){
+		let result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
+		for(let i=0;i<result.length;i++){
 			result[i].match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
 			//unix時間,スレッドタイトル,レス数,勢いの順に入れる
 			threads_array.push([RegExp.$1, RegExp.$2, RegExp.$3, calcPower(getDate, RegExp.$1, RegExp.$3)]);
@@ -127,12 +127,12 @@ function showThreads(threads){
 
 //responses_arrayからhtml生成
 function createHTMLforResponses(responses_array){
-	var html = "<style type='text/css'>"
+	let html = "<style type='text/css'>"
 				+ "div{ margin: 0 5px 0 5px; } span{ margin-right:5px; } div.content{ margin-left:10px; }"
 				+"</style>";
 	
 	html += "<div>"+threads_array[thread_number][1]+"</div>"
-	for(var i=0;i<responses_array.length;i++){
+	for(let i=0;i<responses_array.length;i++){
 		html += "<div>"
 					+ "<span class='num'>" + (i+1) + "</span>"
 					+ "<span class='name'>" + responses_array[i][0]+ "</span>"
@@ -148,7 +148,7 @@ function createHTMLforResponses(responses_array){
 
 //スレッド内容を出力
 function showResponses(responses){
-	var responses_array = new Array();
+	let responses_array = new Array();
 	
 	responses += responses + "\n";
 	//&があるとhtmlが崩れる
@@ -157,7 +157,7 @@ function showResponses(responses){
 	
 	
 	try{
-	var result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>(.*)\n/)
+	let result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>(.*)\n/)
 	if(result){
 			let [, name, mail, date, user_id, content] = result;
 			
@@ -171,7 +171,7 @@ function showResponses(responses){
 	}
 	
 	result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/g);
-		for(var i=0;i<result.length;i++){
+		for(let i=0;i<result.length;i++){
 			let [, name, mail, date, user_id, content] = result[i].match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/);
 			
 			if (name.match(/<.*>(.*)<.*>/))
