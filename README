@@ -1,5 +1,25 @@
 2ch browser for vimperator (jane style like)
 use and custom for free
 
+使い方(How to Use)
+1.2ch_browserに見たい板の名前とurlを追加する。(you shuould add thread url what you want to watch at 2ch_browser.js)
+ex) var boards = [
+			["news", "kamome.2ch.net/news/"]
+			]
+
+2.:jnの第一引数に上記の板名を入れるとスレッド一覧が勢い順にソートされて表示される(you can watch threads of the board that sorted by threads power.)
+ex) :jn news
+
+
+3.第二引数に上記で表示されたスレッド番号を入力するとスレッドの閲覧ができる。(you can watch thread context if you load threads of the board.)
+ex) :jn news 1
+
+
+*スレッドの番号は勢い順にソートされた順番に付けられているので
+:jn news 1
+とするとニュース速報板の一番勢いのあるスレッドが表示される
+(the number of thread what you want to watch is the number of threads of the board.)
+
+
 created by natsumesou
 mail natsumesouxx@gmail.com
