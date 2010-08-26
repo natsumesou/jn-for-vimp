@@ -1,5 +1,15 @@
 
 
+
+//見たい板の名前とURLを入れていく（名前は適当でもいいけどURLが下記のようなフォーマットでないと読み込みエラーが起きるので注意）
+var boards = [
+				["news", "kamome.2ch.net/news/"],
+				["news4vip", "yuzuru.2ch.net/news4vip/"],
+			];
+
+
+//選択中のスレッド
+var thread_number = 0;
 function browse(args, bang, count){
 	var board = args[0];
 	
@@ -17,10 +27,23 @@ function browse(args, bang, count){
 	}else{
 		if(threads_array != undefined){
 			if(threads_array.length > 0){
-				var number = eval(args[1]) - 1;
-				get2chData(board_url, threads_array[number][0]);
+				try{
+					var number = eval(args[1]) - 1;
+				}catch(e){
+					liberator.echoerr("should input an accurate numerical value");
+					return -1;
+				}
+				try{
+					thread_number = number;
+					number = threads_array[number][0];
+				}catch(e){
+					liberator.echoerr("The number " + number +" thread doesn't exist. ");
+					return -1;
+				}
+				get2chData(board_url, number);
 			}else{
 				liberator.echoerr("not loaded " +args[0]+ " thread lists!!");
+				return -1;
 			}
 		}
 	}
@@ -68,7 +91,7 @@ function createHTMLforThreads(threads_array){
 					+ "<span class='num'>" + (i+1) + "</span>"
 					+ "<span class='power'>" + threads_array[i][3] + "</span>"
 					+ "<span class='title'>" + threads_array[i][1]+ "</span>"
-					+ "<span class='ress'>" + threads_array[i][2] + "</span>"
+					+ "<span class='ress'>(" + threads_array[i][2] + ")</span>"
 				+ "</div>";
 	}
 	
@@ -106,6 +129,8 @@ function createHTMLforResponses(responses_array){
 	var html = "<style type='text/css'>"
 				+ "div{ margin: 0 5px 0 5px; } span{ margin-right:5px; } div.content{ margin-left:10px; }"
 				+"</style>";
+	
+	html += "<div>"+threads_array[thread_number][1]+"</div>"
 	for(var i=0;i<responses_array.length;i++){
 		html += "<div>"
 					+ "<span class='num'>" + (i+1) + "</span>"
@@ -176,12 +201,6 @@ function calcPower(getDate, createDate, totalRess){
 	return ((totalRess / ((getDate-createDate) / 60) ) * 60 * 24).toFixed(2);
 }
 
-
-//見たい板の名前とURLを入れていく（名前はどうでもいいけどURLが下記のようなフォーマットでないと読み込みエラーが起きるので注意）
-var boards = [
-				["news", "kamome.2ch.net/news/"],
-				["news4vip", "yuzuru.2ch.net/news4vip/"],
-			];
 
 //第一引数に板の名前、第二引数が無い場合は板一覧・第二引数に板一覧で表示される番号を入力するとスレッドが表示される。
 //ex. :jn news
