@@ -111,15 +111,11 @@ function showThreads(threads){
 	threads = threads.replace(/&/g, "&amp;");
 	threads = threads.replace(/\&amp;([a-z]+;)/g, "\&$1");
 	
-	try{
-		let result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
-		for(let [, it] in Iterator(result)){
-			it.match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
-			//unix時間,スレッドタイトル,レス数,勢いの順に入れる
-			threads_array.push([RegExp.$1, RegExp.$2, RegExp.$3, calcPower(getDate, RegExp.$1, RegExp.$3)]);
-		}
-	}catch(e){
-		//なぜかresult[i]がないというエラーが出る
+	let result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
+	for(let [, it] in Iterator(result)){
+		let m = it.match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
+		//unix時間,スレッドタイトル,レス数,勢いの順に入れる
+		threads_array.push([m[1], m[2], m[3], calcPower(getDate, m[1], m[3])]);
 	}
 	
 	threads_array.sort(function(x,y){return y[3]-x[3]});
