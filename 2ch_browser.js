@@ -32,19 +32,16 @@ function browse(args, bang, count){
 					number = parseInt(args[1], 10) - 1;
 				}catch(e){
 					liberator.echoerr("should input an accurate numerical value");
-					return -1;
 				}
 				try{
 					thread_number = number;
 					number = threads_array[number][0];
 				}catch(e){
 					liberator.echoerr("The number " + number +" thread doesn't exist. ");
-					return -1;
 				}
 				get2chData(board_url, number);
 			}else{
 				liberator.echoerr("not loaded " +args[0]+ " thread lists!!");
-				return -1;
 			}
 		}
 	}
@@ -74,7 +71,6 @@ function get2chData(url, dat_url){
 				}
 			}else{
 				liberator.echoerr("request failed...");
-				return undefined;
 			}
 		}
 	}
