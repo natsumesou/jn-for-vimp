@@ -219,5 +219,6 @@ commands.addUserCommand(
 			context.title = ["board title", "url"];
 			context.completions = boards;
 		}
-	}
+	},
+  true
 );
