@@ -21,11 +21,11 @@ function browse(args, bang, count){
 		}
 	}
 	
-	if(args[1] == undefined){
+	if(typeof args[1] == 'undefined'){
 		if(threads_array.length > 0) threads_array = [];
 		get2chData(board_url, null);
 	}else{
-		if(threads_array != undefined){
+		if(typeof threads_array != 'undefined'){
 			if(threads_array.length > 0){
 				let number;
 				try{
