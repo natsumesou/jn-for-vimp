@@ -14,9 +14,9 @@ function browse(args, bang, count){
 	let board = args[0];
 	
 	let board_url = "";
-	for(let i=0; i<boards.length;i++){
-		if(board == boards[i][0]){
-			board_url = boards[i][1];
+	for(let [, it] in Iterator(boards)){
+		if(board == it[0]){
+			board_url = it[1];
 			break;
 		}
 	}
@@ -27,8 +27,9 @@ function browse(args, bang, count){
 	}else{
 		if(threads_array != undefined){
 			if(threads_array.length > 0){
+				let number;
 				try{
-					let number = eval(args[1]) - 1;
+					number = eval(args[1]) - 1;
 				}catch(e){
 					liberator.echoerr("should input an accurate numerical value");
 					return -1;
@@ -86,12 +87,12 @@ function createHTMLforThreads(threads_array){
 				+ "div{ margin: 0 5px 0 5px; } span{ margin-right:5px; }"
 				+"</style>";
 	
-	for(let i=0;i<threads_array.length;i++){
+	for(let [i, thread] in Iterator(threads_array)){
 		html += "<div>"
 					+ "<span class='num'>" + (i+1) + "</span>"
-					+ "<span class='power'>" + threads_array[i][3] + "</span>"
-					+ "<span class='title'>" + threads_array[i][1]+ "</span>"
-					+ "<span class='ress'>(" + threads_array[i][2] + ")</span>"
+					+ "<span class='power'>" + thread[3] + "</span>"
+					+ "<span class='title'>" + thread[1]+ "</span>"
+					+ "<span class='ress'>(" + thread[2] + ")</span>"
 				+ "</div>";
 	}
 	
@@ -112,8 +113,8 @@ function showThreads(threads){
 	
 	try{
 		let result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
-		for(let i=0;i<result.length;i++){
-			result[i].match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
+		for(let [, it] in Iterator(result)){
+			it.match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
 			//unix時間,スレッドタイトル,レス数,勢いの順に入れる
 			threads_array.push([RegExp.$1, RegExp.$2, RegExp.$3, calcPower(getDate, RegExp.$1, RegExp.$3)]);
 		}
@@ -132,14 +133,14 @@ function createHTMLforResponses(responses_array){
 				+"</style>";
 	
 	html += "<div>"+threads_array[thread_number][1]+"</div>"
-	for(let i=0;i<responses_array.length;i++){
+	for(let [, it] in Iterator(responses_array)){
 		html += "<div>"
 					+ "<span class='num'>" + (i+1) + "</span>"
-					+ "<span class='name'>" + responses_array[i][0]+ "</span>"
-					+ "<span class='mail'>[" + responses_array[i][1] + "]</span>"
-					+ "<span class='date'>" + responses_array[i][2] + "</span>"
-					+ "<span class='id'>ID:" + responses_array[i][3] + "</span>"
-					+ "<div class='content'>" + responses_array[i][4] + "</div>"
+					+ "<span class='name'>" + it[0]+ "</span>"
+					+ "<span class='mail'>[" + it[1] + "]</span>"
+					+ "<span class='date'>" + it[2] + "</span>"
+					+ "<span class='id'>ID:" + it[3] + "</span>"
+					+ "<div class='content'>" + it[4] + "</div>"
 				+ "</div>";
 	}
 	
@@ -171,8 +172,8 @@ function showResponses(responses){
 	}
 	
 	result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/g);
-		for(let i=0;i<result.length;i++){
-			let [, name, mail, date, user_id, content] = result[i].match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/);
+	for(let [, it] in Iterator(result)){
+			let [, name, mail, date, user_id, content] = it.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/);
 			
 			if (name.match(/<.*>(.*)<.*>/))
 				name = RegExp.$1;
