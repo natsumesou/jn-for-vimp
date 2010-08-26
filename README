@@ -2,22 +2,20 @@
 use and custom for free
 
 使い方(How to Use)
-1.2ch_browserに見たい板の名前とurlをt追加する。(you shuould add thread url what you want to watch at 2ch_browser.js)
+1.2ch_browserにみたい板の名前とURLを追加する(you shuould add thread url what you want to watch at 2ch_browser.js)
 ex) var boards = [
 			["news", "kamome.2ch.net/news/"]
 			]
 
-2.:jnの第一引数に上記の板名を入れるとスレッド一覧が勢い順にソートされて表示される(you can watch threads of the board that sorted by threads power.)
+2.:jnの第一引数に上記の板名をいれるとスレッド一覧が勢い順にソートされて表示される(you can watch threads of the board that sorted by threads power.)
 ex) :jn news
-
 
 3.第二引数に上記で表示されたスレッド番号を入力するとスレッドの閲覧ができる。(you can watch thread context if you load threads of the board.)
 ex) :jn news 1
 
-
-*スレッドの番号は勢い順にソートされた順番に付けられているので
+*スレッドの番号は勢いの降順にソートされているので
 :jn news 1
-とするとニュース速報板の一番勢いのあるスレッドが表示される
+とするとニュース速報板の勢いが1番のスレッドを見ることができる
 (the number of thread what you want to watch is the number of threads of the board.)
 
 
