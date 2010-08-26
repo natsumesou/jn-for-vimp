@@ -108,6 +108,7 @@ function showThreads(threads){
 	
 	//&があるとhtmlが崩れる
 	threads = threads.replace(/&/g, "&amp;");
+	threads = threads.replace(/\&amp;([a-z]+;)/g, "\&$1");
 	
 	try{
 		var result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
@@ -152,6 +153,8 @@ function showResponses(responses){
 	responses += responses + "\n";
 	//&があるとhtmlが崩れる
 	responses = responses.replace(/&/g, "&amp;");
+	responses = responses.replace(/\&amp;([a-z]+;)/g, "\&$1");
+	
 	
 	try{
 	var result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>(.*)\n/)
