@@ -159,14 +159,10 @@ function showResponses(responses){
 	try{
 	var result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>(.*)\n/)
 	if(result){
-			var name = RegExp.$1;
-			var mail = RegExp.$2;
-			var date = RegExp.$3;
-			var user_id = RegExp.$4;
-			var content = RegExp.$5;
+			let [, name, mail, date, user_id, content] = result;
 			
-			var re_name = name.match(/<.*>(.*)<.*>/);
-			if(re_name) name = RegExp.$1;
+			if (name.match(/<.*>(.*)<.*>/))
+				name = RegExp.$1;
 			
 			//改行タグを修正
 			content = content.replace(/<br>/g, "<br/>");
@@ -176,16 +172,10 @@ function showResponses(responses){
 	
 	result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/g);
 		for(var i=0;i<result.length;i++){
+			let [, name, mail, date, user_id, content] = result[i].match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/);
 			
-			result[i].match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>\n/);
-			var name = RegExp.$1;
-			var mail = RegExp.$2;
-			var date = RegExp.$3;
-			var user_id = RegExp.$4;
-			var content = RegExp.$5;
-			
-			var re_name = name.match(/<.*>(.*)<.*>/);
-			if(re_name) name = RegExp.$1;
+			if (name.match(/<.*>(.*)<.*>/))
+				name = RegExp.$1;
 			
 			//改行タグを修正
 			content = content.replace(/<br>/g, "<br/>");
