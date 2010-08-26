@@ -3,9 +3,9 @@ use and custom for free
 
 使い方(How to Use)
 1.2ch_browserにみたい板の名前とURLを追加する(you shuould add thread url what you want to watch at 2ch_browser.js)
-ex) var boards = [
-			["news", "kamome.2ch.net/news/"]
-			]
+ex) let boards = {
+			news: "kamome.2ch.net/news/"
+			}
 
 2.:jnの第一引数に上記の板名をいれるとスレッド一覧が勢い順にソートされて表示される(you can watch threads of the board that sorted by threads power.)
 ex) :jn news

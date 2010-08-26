@@ -92,8 +92,8 @@ function parseSubjectText(subject_text){
 	getDate = eval(getDate);
 	
 	//&があるとhtmlが崩れる
-	threads = threads.replace(/&/g, "&amp;");
-	threads = threads.replace(/\&amp;([a-z]+;)/g, "\&$1");
+	subject_text = subject_text.replace(/&/g, "&amp;");
+	subject_text = subject_text.replace(/\&amp;([a-z]+;)/g, "\&$1");
 	
 	return threads_array = subject_text.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g).map(function(it){
 		let m = it.match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
@@ -113,7 +113,8 @@ function createHTMLforResponses(responses_array){
 				+"</style>";
 	
 	html += "<div>"+threads_array[thread_number][1]+"</div>"
-	for(let [, it] in Iterator(responses_array)){
+	
+	for(let [i, it] in Iterator(responses_array)){
 		html += "<div>"
 					+ "<span class='num'>" + (i+1) + "</span>"
 					+ "<span class='name'>" + it[0]+ "</span>"
@@ -135,7 +136,6 @@ function showResponses(responses){
 	//&があるとhtmlが崩れる
 	responses = responses.replace(/&/g, "&amp;");
 	responses = responses.replace(/\&amp;([a-z]+;)/g, "\&$1");
-	
 	
 	try{
 	let result = responses.match(/(.*)<>(.*)<>(.*) ID:(.*)<> (.*) <>(.*)\n/)
