@@ -29,7 +29,7 @@ function browse(args, bang, count){
 			if(threads_array.length > 0){
 				let number;
 				try{
-					number = eval(args[1]) - 1;
+					number = parseInt(args[1], 10) - 1;
 				}catch(e){
 					liberator.echoerr("should input an accurate numerical value");
 					return -1;
