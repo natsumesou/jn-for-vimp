@@ -62,7 +62,7 @@ function get2chData(url, dat_url){
 	req.setRequestHeader("User-Agent", "Monazilla/1.00 (2ch browser for vimp)");
 	
 	req.onreadystatechange = function(){
-		if( req.readyState == 4){
+		if(req.readyState == 4){
 			if(req.status == 200){
 				let threads = req.responseText;
 				
