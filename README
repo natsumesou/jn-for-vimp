@@ -1,23 +1,23 @@
 2ch browser for vimperator (jane style like)
 use and custom for free
 
-g‚¢•û(How to Use)
-1.2ch_browser‚ÉŒ©‚½‚¢”Â‚Ì–¼‘O‚Æurl‚ğ’Ç‰Á‚·‚éB(you shuould add thread url what you want to watch at 2ch_browser.js)
+ä½¿ã„æ–¹(How to Use)
+1.2ch_browserã«è¦‹ãŸã„æ¿ã®åå‰ã¨urlã‚’tè¿½åŠ ã™ã‚‹ã€‚(you shuould add thread url what you want to watch at 2ch_browser.js)
 ex) var boards = [
 			["news", "kamome.2ch.net/news/"]
 			]
 
-2.:jn‚Ì‘æˆêˆø”‚Éã‹L‚Ì”Â–¼‚ğ“ü‚ê‚é‚ÆƒXƒŒƒbƒhˆê——‚ª¨‚¢‡‚Éƒ\[ƒg‚³‚ê‚Ä•\¦‚³‚ê‚é(you can watch threads of the board that sorted by threads power.)
+2.:jnã®ç¬¬ä¸€å¼•æ•°ã«ä¸Šè¨˜ã®æ¿åã‚’å…¥ã‚Œã‚‹ã¨ã‚¹ãƒ¬ãƒƒãƒ‰ä¸€è¦§ãŒå‹¢ã„é †ã«ã‚½ãƒ¼ãƒˆã•ã‚Œã¦è¡¨ç¤ºã•ã‚Œã‚‹(you can watch threads of the board that sorted by threads power.)
 ex) :jn news
 
 
-3.‘æ“ñˆø”‚Éã‹L‚Å•\¦‚³‚ê‚½ƒXƒŒƒbƒh”Ô†‚ğ“ü—Í‚·‚é‚ÆƒXƒŒƒbƒh‚Ì‰{——‚ª‚Å‚«‚éB(you can watch thread context if you load threads of the board.)
+3.ç¬¬äºŒå¼•æ•°ã«ä¸Šè¨˜ã§è¡¨ç¤ºã•ã‚ŒãŸã‚¹ãƒ¬ãƒƒãƒ‰ç•ªå·ã‚’å…¥åŠ›ã™ã‚‹ã¨ã‚¹ãƒ¬ãƒƒãƒ‰ã®é–²è¦§ãŒã§ãã‚‹ã€‚(you can watch thread context if you load threads of the board.)
 ex) :jn news 1
 
 
-*ƒXƒŒƒbƒh‚Ì”Ô†‚Í¨‚¢‡‚Éƒ\[ƒg‚³‚ê‚½‡”Ô‚É•t‚¯‚ç‚ê‚Ä‚¢‚é‚Ì‚Å
+*ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç•ªå·ã¯å‹¢ã„é †ã«ã‚½ãƒ¼ãƒˆã•ã‚ŒãŸé †ç•ªã«ä»˜ã‘ã‚‰ã‚Œã¦ã„ã‚‹ã®ã§
 :jn news 1
-‚Æ‚·‚é‚Æƒjƒ…[ƒX‘¬•ñ”Â‚Ìˆê”Ô¨‚¢‚Ì‚ ‚éƒXƒŒƒbƒh‚ª•\¦‚³‚ê‚é
+ã¨ã™ã‚‹ã¨ãƒ‹ãƒ¥ãƒ¼ã‚¹é€Ÿå ±æ¿ã®ä¸€ç•ªå‹¢ã„ã®ã‚ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ãŒè¡¨ç¤ºã•ã‚Œã‚‹
 (the number of thread what you want to watch is the number of threads of the board.)
 
 
