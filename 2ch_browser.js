@@ -2,10 +2,10 @@
 
 
 //見たい板の名前とURLを入れていく（名前は適当でもいいけどURLが下記のようなフォーマットでないと読み込みエラーが起きるので注意）
-let boards = [
-				["news", "kamome.2ch.net/news/"],
-				["news4vip", "yuzuru.2ch.net/news4vip/"],
-			];
+let boards = {
+				news: "kamome.2ch.net/news/",
+				news4vip: "yuzuru.2ch.net/news4vip/"
+			};
 
 
 //選択中のスレッド
@@ -13,17 +13,11 @@ let thread_number = 0;
 function browse(args, bang, count){
 	let board = args[0];
 	
-	let board_url = "";
-	for(let [, it] in Iterator(boards)){
-		if(board == it[0]){
-			board_url = it[1];
-			break;
-		}
-	}
+	let board_url = boards[board];
 	
 	if(typeof args[1] == 'undefined'){
 		if(threads_array.length > 0) threads_array = [];
-		get2chData(board_url, null);
+		get2chData(board_url, null, showThreads);
 	}else{
 		if(typeof threads_array != 'undefined'){
 			if(threads_array.length > 0){
@@ -39,7 +33,7 @@ function browse(args, bang, count){
 				}catch(e){
 					liberator.echoerr("The number " + number +" thread doesn't exist. ");
 				}
-				get2chData(board_url, number);
+				get2chData(board_url, number, showResponses);
 			}else{
 				liberator.echoerr("not loaded " +args[0]+ " thread lists!!");
 			}
@@ -47,9 +41,9 @@ function browse(args, bang, count){
 	}
 }
 
-function get2chData(url, dat_url){
-	if(dat_url){
-		url = "http://bg20.2ch.net/test/r.so/" + url + dat_url + "/";
+function get2chData(url, dat_number, on_complete){
+	if(dat_number){
+		url = "http://bg20.2ch.net/test/r.so/" + url + dat_number + "/";
 	}else{
 		url = "http://" + url + "subject.txt";
 	}
@@ -62,13 +56,7 @@ function get2chData(url, dat_url){
 	req.onreadystatechange = function(){
 		if(req.readyState == 4){
 			if(req.status == 200){
-				let threads = req.responseText;
-				
-				if(dat_url){
-					showResponses(threads);
-				}else{
-					showThreads(threads);
-				}
+				on_complete(req.responseText);
 			}else{
 				liberator.echoerr("request failed...");
 			}
@@ -97,7 +85,7 @@ function createHTMLforThreads(threads_array){
 
 //スレッド一覧を出力
 let threads_array = [];
-function showThreads(threads){
+function parseSubjectText(subject_text){
 	let getDate = (new Date).getTime();
 	getDate = ""+getDate;
 	getDate = getDate.substring(0,getDate.length-3);
@@ -107,15 +95,15 @@ function showThreads(threads){
 	threads = threads.replace(/&/g, "&amp;");
 	threads = threads.replace(/\&amp;([a-z]+;)/g, "\&$1");
 	
-	let result = threads.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g);
-	for(let [, it] in Iterator(result)){
+	return threads_array = subject_text.match(/([0-9]+\.dat)<>(.*)\(([0-9]+)\)/g).map(function(it){
 		let m = it.match(/([0-9]+)\.dat<>(.*)\(([0-9]+)\)/);
 		//unix時間,スレッドタイトル,レス数,勢いの順に入れる
-		threads_array.push([m[1], m[2], m[3], calcPower(getDate, m[1], m[3])]);
-	}
-	
-	threads_array.sort(function(x,y){return y[3]-x[3]});
-	liberator.echo(createHTMLforThreads(threads_array), true);
+		return [m[1], m[2], m[3], calcPower(getDate, m[1], m[3])];
+	}).sort(function(x,y) y[3]-x[3]);
+}
+
+function showThreads(subject_text){
+	liberator.echo(createHTMLforThreads(parseSubjectText(subject_text)), true);
 }
 
 //responses_arrayからhtml生成
@@ -191,6 +179,7 @@ function calcPower(getDate, createDate, totalRess){
 //第一引数に板の名前、第二引数が無い場合は板一覧・第二引数に板一覧で表示される番号を入力するとスレッドが表示される。
 //ex. :jn news
 //ex, ;jn news 1
+let last_requested_time = 0;
 commands.addUserCommand(
 	['jn'],
 	'2ch browser for vimperator',
@@ -199,8 +188,27 @@ commands.addUserCommand(
 	},
 	{
 		completer : function(context, args){
+			function set_completions(threads){
+				context.completions = threads.map(function(thread, i) [i + 1, thread[1]]);
+			}
+
 			context.title = ["board title", "url"];
-			context.completions = boards;
+
+			if(args.length <= 1){
+				context.completions = boards;
+			}else{
+				let now = new Date().getTime();
+				if(now < (last_requested_time + 30 * 1000)){
+					set_completions(threads_array);
+				}else{
+					last_requested_time = now;
+					context.incomplete = true;
+					get2chData(boards[args[0]], null, function(subject_text){
+						context.incomplete = false;
+						set_completions(parseSubjectText(subject_text));
+					});
+				}
+			}
 		}
 	},
   true
